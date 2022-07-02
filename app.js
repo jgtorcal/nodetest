@@ -104,3 +104,77 @@
 // inquirer.prompt(questions).then(answers => {
 //   console.log(`Hi ${answers.name}!`);
 // });
+
+
+/**
+ * Raw List prompt example
+ */
+
+//import inquirer from '../lib/inquirer.js';
+const inquirer = require('inquirer');
+
+// inquirer.prompt([
+//     {
+//         type: 'rawlist',
+//         name: 'paso1',
+//         message: '¿QUé hacemos?',
+//         choices: [
+//             'Crear una factura',
+//             'Ver listado de clientes',
+//         ],
+//     },
+//     {
+//         type: 'rawlist',
+//         name: 'size',
+//         message: 'What size do you need',
+//         choices: ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
+//         filter(val) {
+//             return val.toLowerCase();
+//         },
+//     },
+// ])
+
+// .then((answers) => {
+//     console.log(JSON.stringify(answers, null, '  '));
+//     }
+// );
+
+const questions = [
+    {
+      type: 'confirm',
+      name: 'bacon',
+      message: 'Do you like bacon?',
+    },
+    {
+      type: 'input',
+      name: 'favorite',
+      message: 'Bacon lover, what is your favorite type of bacon?',
+      when(answers) {
+        return answers.bacon;
+      },
+    },
+    {
+      type: 'confirm',
+      name: 'pizza',
+      message: 'Ok... Do you like pizza?',
+      when(answers) {
+        return !likesFood('bacon')(answers);
+      },
+    },
+    {
+      type: 'input',
+      name: 'favorite',
+      message: 'Whew! What is your favorite type of pizza?',
+      when: likesFood('pizza'),
+    },
+  ];
+  
+  function likesFood(aFood) {
+    return function (answers) {
+      return answers[aFood];
+    };
+  }
+  
+  inquirer.prompt(questions).then((answers) => {
+    console.log(JSON.stringify(answers, null, '  '));
+  });
