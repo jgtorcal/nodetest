@@ -159,6 +159,15 @@ const questions = [
         },
     },
     {
+        type: 'confirm',
+        name: 'salir',
+        message: '¿Quieres salir?',
+        when(answers) {
+            return answers.salir;
+            
+        },
+    },
+    {
         type: 'input',
         name: 'qfecha',
         message: 'Dime una fecha',
