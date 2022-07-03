@@ -141,40 +141,64 @@ const inquirer = require('inquirer');
 
 const questions = [
     {
-      type: 'confirm',
-      name: 'bacon',
-      message: 'Do you like bacon?',
+        type: 'rawlist',
+        name: 'qintro',
+        message: '¿Qué hacemos?',
+        choices: [
+            'Crear una factura',
+            'Gestionar clientes',
+            'Salir',
+        ],
     },
     {
-      type: 'input',
-      name: 'favorite',
-      message: 'Bacon lover, what is your favorite type of bacon?',
-      when(answers) {
-        return answers.bacon;
-      },
+        type: 'input',
+        name: 'qnum',
+        message: 'Dime el número de la fatcura',
+        when(answers) {
+            return answers.qintro == "Crear una factura";
+        },
     },
     {
-      type: 'confirm',
-      name: 'pizza',
-      message: 'Ok... Do you like pizza?',
-      when(answers) {
-        return !likesFood('bacon')(answers);
-      },
+        type: 'input',
+        name: 'qfecha',
+        message: 'Dime una fecha',
     },
     {
-      type: 'input',
-      name: 'favorite',
-      message: 'Whew! What is your favorite type of pizza?',
-      when: likesFood('pizza'),
+        type: 'input',
+        name: 'qfecha',
+        message: 'Dime una fecha de vencimiento',
     },
-  ];
-  
-  function likesFood(aFood) {
-    return function (answers) {
-      return answers[aFood];
-    };
-  }
-  
-  inquirer.prompt(questions).then((answers) => {
+    {
+        type: 'input',
+        name: 'qconcepto_name',
+        message: 'Dime el concepto',
+    },
+    {
+        type: 'input',
+        name: 'qconcepto_cost',
+        message: 'Dime el coste',
+    },
+    {
+        type: 'input',
+        name: 'qconcepto_quantity',
+        message: 'Dime la cantidad',
+    },
+    {
+        type: 'confirm',
+        name: 'otro_concepto',
+        message: '¿Añadir otro concepto?',
+    },
+    {
+        type: 'confirm',
+        name: 'print',
+        message: '¿Imprimir?',
+        when(answers) {
+            return !answers.otro_concepto;
+            console.log("Imprimiendo fatcura")
+        },
+    },
+];
+
+inquirer.prompt(questions).then((answers) => {
     console.log(JSON.stringify(answers, null, '  '));
-  });
+});
